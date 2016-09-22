@@ -52,7 +52,7 @@ class ExtendPageForm
     public function handleLocalBeforeEvent()
     {
         foreach ($this->form->tabs['fields'] as $key=>$field) {
-            if (array_key_exists('X_OCTOBER_IS_VARIABLE', $field)) {
+            if (array_key_exists('X_OCTOBER_IS_VARIABLE', $field) || (array_key_exists('type', $field) && $field['type'] === 'richeditor')) {
                 unset($this->form->tabs['fields'][$key]);
                 $field['cssClass'] = 'moved-to-secondary' . (empty($field['cssClass']) ? '' : ' ' . $field['cssClass']);
                 $this->form->secondaryTabs['fields'][$key] = $field;
