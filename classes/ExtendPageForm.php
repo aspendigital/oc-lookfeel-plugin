@@ -28,10 +28,10 @@ class ExtendPageForm
      */
     public function handle($form)
     {
-        // Only process page form and only if the controller is rendering a view
-        //   (AJAX calls for e.g. repeater fields don't set up tabs)
+        // Only process page form and only if the form is set to render all page fields
+        //   (AJAX and save with e.g. repeater fields call these events but don't set up tabs)
         $controller = $form->getController();
-        if (! $controller instanceof \RainLab\Pages\Controllers\Index || $controller->suppressView || ! $form->model instanceof Page) {
+        if (! $controller instanceof \RainLab\Pages\Controllers\Index || empty($form->tabs['fields']) || ! $form->model instanceof Page) {
             return;
         }
         
