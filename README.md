@@ -8,12 +8,6 @@ To install, clone this repository or create a Git submodule at `/plugins/aspendi
 
 This plugin modifies the following functionality in the OctoberCMS core.
 
-####JS TreeView scroll on drag
-
-On backend pages that makes use of the TreeView plugin (Pages, Sitemap), this plugin will add JavaScript to scroll the list during element dragging.
-
-This has been submitted in a [pull request](https://github.com/octobercms/october/pull/2277) and should be removed from the plugin once the functionality exists in some form in core.
-
 ###Pages Plugin
 
 This plugin adds the following functionality to the Pages plugin, generally by setting configuration variables on theme layouts.
