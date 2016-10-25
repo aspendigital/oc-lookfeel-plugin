@@ -49,10 +49,13 @@ class Plugin extends PluginBase
         //   event, at which point the controller action has not yet added any assets. This is a bit of a
         //   hack to ensure this plugin's assets are parsed last to simplify overriding core functionality
         Event::listen('router.after', function($request, $response) {
+          if ($this->controller)
+          {
             $this->controller->flushAssets();
             $this->controller->addCss('/plugins/aspendigital/lookfeel/assets/css/custom.css');
             
             $response->setContent(str_replace('</head>', $this->controller->makeAssets().'</head>', $response->getContent()));
+          }
         });
     }
 
