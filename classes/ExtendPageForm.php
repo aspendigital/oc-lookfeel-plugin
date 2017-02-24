@@ -44,14 +44,14 @@ class ExtendPageForm
         //  form fields are added based on the page layout
         $this->checkDefault();
 
-        $form->bindEvent('form.extendFieldsBefore', [$this, 'handleLocalBeforeEvent'], -1);
         $form->bindEvent('form.extendFields', [$this, 'handleLocalAfterEvent']);
+        $this->moveVariablesToSecondary();
     }
     
     /**
      * Move variable fields to secondary tabs
      */
-    public function handleLocalBeforeEvent()
+    public function moveVariablesToSecondary()
     {
         foreach ($this->form->tabs['fields'] as $key=>$field) {
             if (array_key_exists('X_OCTOBER_IS_VARIABLE', $field) || (array_key_exists('type', $field) && $field['type'] === 'richeditor')) {
