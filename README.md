@@ -13,7 +13,10 @@ This plugin modifies the following functionality in the OctoberCMS core.
 This plugin adds the following functionality to the Pages plugin, generally by setting configuration variables on theme layouts.
 
 ####Sub-page layout inheritance
-When adding a sub-page, the new page will default to the parent page's layout.
+When adding a sub-page, the plugin checks the parent page's layout configuration for
+`childLayout = "NAME"`, which will be the default layout for the new page.
+
+If a child layout is not defined, the new page will default to the parent page's layout.
 
 ####Sub-page URL inheritance
 When changing the URL of a parent page, its existing children will pick up the URL change (if using that URL as a prefix).

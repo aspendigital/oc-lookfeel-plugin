@@ -110,14 +110,24 @@ class ExtendPageForm
             //   selected for a new sub-page, and the layout has to be set now so that fields for
             //   any layout variables can be added.
             $parent = Request::input('parent') ? Page::load($this->page->theme, Request::input('parent')) : null;
-            
-            $layout = $parent ? $parent->getViewBag()->property('layout') : $this->defaultLayout;
-            
+
+            if ($parent) {
+                $layoutName = $parent->getViewBag()->property('layout');
+                
+                // Check if the parent page defines a layout for its sub-pages
+                if (!empty($this->layouts[$layoutName]->childLayout)) {
+                    $layoutName = $this->layouts[$layoutName]->childLayout;
+                }
+            }
+            else {
+                $layoutName = $this->defaultLayout;
+            }
+
             // Use fill() as there are actually two copies of the viewBag the Page maintains
             $this->page->fill([
                 'settings'=>[
                     'viewBag'=>[
-                        'layout' => $layout
+                        'layout' => $layoutName
                     ]
                 ]
             ]);
