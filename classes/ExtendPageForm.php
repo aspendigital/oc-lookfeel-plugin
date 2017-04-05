@@ -54,7 +54,8 @@ class ExtendPageForm
     public function moveVariablesToSecondary()
     {
         foreach ($this->form->tabs['fields'] as $key=>$field) {
-            if (array_key_exists('X_OCTOBER_IS_VARIABLE', $field) || (array_key_exists('type', $field) && $field['type'] === 'richeditor')) {
+            if (array_key_exists('X_OCTOBER_IS_VARIABLE', $field) ||
+            (array_key_exists('type', $field) && $field['type'] === 'richeditor') || (array_key_exists('type', $field) && $field['type'] === 'text') || (array_key_exists('type', $field) && $field['type'] === 'repeater') || (array_key_exists('type', $field) && $field['type'] === 'radio')) {
                 unset($this->form->tabs['fields'][$key]);
                 $field['cssClass'] = 'moved-to-secondary' . (empty($field['cssClass']) ? '' : ' ' . $field['cssClass']);
                 $this->form->secondaryTabs['fields'][$key] = $field;
