@@ -1,40 +1,40 @@
-##Aspen Digital Look & Feel
+## Aspen Digital Look & Feel
 
 An OctoberCMS plugin to override default behavior for a better user experience.
 
 To install, clone this repository or create a Git submodule at `/plugins/aspendigital/lookfeel/`
 
-###Core OctoberCMS
+### Core OctoberCMS
 
 This plugin modifies the following functionality in the OctoberCMS core.
 
-###Pages Plugin
+### Pages Plugin
 
 This plugin adds the following functionality to the Pages plugin, generally by setting configuration variables on theme layouts.
 
-####Sub-page layout inheritance
+#### Sub-page layout inheritance
 When adding a sub-page, the plugin checks the parent page's layout configuration for
 `childLayout = "NAME"`, which will be the default layout for the new page.
 
 If a child layout is not defined, the new page will default to the parent page's layout.
 
-####Sub-page URL inheritance
+#### Sub-page URL inheritance
 When changing the URL of a parent page, its existing children will pick up the URL change (if using that URL as a prefix).
 
-####Content tabs for variables
+#### Content tabs for variables
 Any variable fields will appear in tabs next to the content tab and any placeholders instead of next to the page settings and metadata. In other words, this plugin moves these fields from the primary tabs to the secondary tabs.
 
-####Set a default layout
+#### Set a default layout
 In a layout file's configuration section, set
 `default = true`
 
 New pages that don't inherit from a parent page will default to this layout.
 
-####Hide layout content markup field
+#### Hide layout content markup field
 In a layout file's configuration section, set
 `hideContentField = true`
 
-####Hide layout in dropdown list
+#### Hide layout in dropdown list
 In a layout file's configuration section, set
 `hidden = true`
 
