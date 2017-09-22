@@ -59,6 +59,17 @@ class Plugin extends PluginBase
         });
     }
 
+    /**
+     * Returns any back-end Form Widgets implemented in this plugin
+     * @return array
+     */
+    public function registerFormWidgets()
+    {
+        return [
+            'AspenDigital\LookFeel\FormWidgets\MultiConditional' => 'multiconditional'
+        ];
+    }
+    
     public function registerPermissions()
     {
         return [
