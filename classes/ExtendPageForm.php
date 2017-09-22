@@ -10,9 +10,6 @@ use Request;
 
 class ExtendPageForm
 {
-    /** @var string */
-    protected $defaultLayout;
-    
     /** @var array */
     protected $layouts = [];
     
@@ -40,27 +37,7 @@ class ExtendPageForm
         
         $this->loadLayouts();
         
-        // If no layout is set for the page, it needs to be set now before the local event fires and 
-        //  form fields are added based on the page layout
-        $this->checkDefault();
-
         $form->bindEvent('form.extendFields', [$this, 'handleLocalAfterEvent']);
-        $this->moveVariablesToSecondary();
-    }
-    
-    /**
-     * Move variable fields to secondary tabs
-     */
-    public function moveVariablesToSecondary()
-    {
-        foreach ($this->form->tabs['fields'] as $key=>$field) {
-            if (array_key_exists('X_OCTOBER_IS_VARIABLE', $field) ||
-            (array_key_exists('type', $field) && $field['type'] === 'richeditor') || (array_key_exists('type', $field) && $field['type'] === 'text') || (array_key_exists('type', $field) && $field['type'] === 'repeater') || (array_key_exists('type', $field) && $field['type'] === 'radio')) {
-                unset($this->form->tabs['fields'][$key]);
-                $field['cssClass'] = 'moved-to-secondary' . (empty($field['cssClass']) ? '' : ' ' . $field['cssClass']);
-                $this->form->secondaryTabs['fields'][$key] = $field;
-            }
-        }
     }
     
     /**
@@ -93,45 +70,7 @@ class ExtendPageForm
     protected function loadLayouts()
     {
         foreach (Layout::listInTheme($this->page->theme) as $layout) {
-            if ($layout->default) {
-                $this->defaultLayout = $layout->getBaseFileName();
-            }
             $this->layouts[ $layout->getBaseFileName() ] = $layout;
-        }
-    }
-    
-    /**
-     * If no layout has been selected (page creation), inherit from a parent page if it exists,
-     *   falling back to a global default if not
-     */
-    protected function checkDefault()
-    {
-        if (!$this->page->getViewBag()->property('layout')) {
-            // TODO: Accessing the request is a hack, but we have no other access to the parent page
-            //   selected for a new sub-page, and the layout has to be set now so that fields for
-            //   any layout variables can be added.
-            $parent = Request::input('parent') ? Page::load($this->page->theme, Request::input('parent')) : null;
-
-            if ($parent) {
-                $layoutName = $parent->getViewBag()->property('layout');
-                
-                // Check if the parent page defines a layout for its sub-pages
-                if (!empty($this->layouts[$layoutName]->childLayout)) {
-                    $layoutName = $this->layouts[$layoutName]->childLayout;
-                }
-            }
-            else {
-                $layoutName = $this->defaultLayout;
-            }
-
-            // Use fill() as there are actually two copies of the viewBag the Page maintains
-            $this->page->fill([
-                'settings'=>[
-                    'viewBag'=>[
-                        'layout' => $layoutName
-                    ]
-                ]
-            ]);
         }
     }
     

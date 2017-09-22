@@ -40,23 +40,6 @@ class Plugin extends PluginBase
             $handler = new Classes\ExtendPageModel();
             $handler->boot();
         }
-
-        Event::listen('backend.page.beforeDisplay', function($eventController) {
-            $this->controller = $eventController;
-        });
-
-        // There seems to be no really good way to manipulate assets after the backend.page.beforeDisplay
-        //   event, at which point the controller action has not yet added any assets. This is a bit of a
-        //   hack to ensure this plugin's assets are parsed last to simplify overriding core functionality
-        Event::listen('router.after', function($request, $response) {
-          if ($this->controller)
-          {
-            $this->controller->flushAssets();
-            $this->controller->addCss('/plugins/aspendigital/lookfeel/assets/css/custom.css');
-            
-            $response->setContent(str_replace('</head>', $this->controller->makeAssets().'</head>', $response->getContent()));
-          }
-        });
     }
 
     /**
