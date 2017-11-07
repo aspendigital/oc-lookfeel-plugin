@@ -6,18 +6,18 @@
         self = this;
 
     this.options = options || {};
-        
+
     if (!this.options.match) {
       this.options.match = 'any';
     }
-    
+
     this.fields = [];
     $.each(this.options.sources, function() {
       var field = {},
           source = this;
-          
+
       field.selector = '[name="'+source.field+'"]';
-      
+
       field.condition = source.field;
       if (source.condition.indexOf('value') === 0) {
         var match = source.condition.match(/[^[\]]+(?=])/g);
@@ -25,13 +25,13 @@
         field.conditionValue = (match) ? match : [""];
       }
       self.fields.push(field);
-      
+
       $(document).on('change', field.selector, $.proxy(self.onConditionChanged, self));
     });
-    
+
     this.onConditionChanged();
   };
-  
+
   MultiConditional.prototype.onConditionChanged = function(e) {
     var fieldResults = $.map(this.fields, function(field) {
       if (field.condition === 'checked') {
@@ -44,7 +44,7 @@
         var sourceValue = '',
             source = $(field.selector)
               .not('input[type=checkbox], input[type=radio], input[type=button], input[type=submit]');
-        
+
 
         if (!source.length) {
           source = source.end()
@@ -54,28 +54,28 @@
         if (!!source.length) {
             sourceValue = source.val();
         }
-        
+
         return $.inArray(sourceValue, field.conditionValue) > -1;
       }
-      
+
       return false;
     });
-    
-    var result = this.match === 'all';
+
+    var result = this.options.match === 'all';
     for (var i=fieldResults.length-1; i >= 0; i--) {
-      if (this.match === 'all') {
+      if (this.options.match === 'all') {
         result = result && fieldResults[i];
       }
       else {
         result = result || fieldResults[i];
       }
     }
-    
+
     if (this.$el.prop('checked') !== result) {
       this.$el.prop('checked', result).change();
     }
   };
-  
+
   MultiConditional.DEFAULTS = {};
 
   // MULTICONDITIONAL PLUGIN DEFINITION
