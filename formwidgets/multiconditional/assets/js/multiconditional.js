@@ -18,7 +18,7 @@
 
       field.selector = '[name="'+source.field+'"]';
 
-      field.condition = source.field;
+      field.condition = source.condition;
       if (source.condition.indexOf('value') === 0) {
         var match = source.condition.match(/[^[\]]+(?=])/g);
         field.condition = 'value';

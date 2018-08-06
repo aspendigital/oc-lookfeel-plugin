@@ -7,7 +7,12 @@ use Backend\Classes\FormWidgetBase;
 class MultiConditional extends FormWidgetBase
 {
     protected $defaultAlias = 'multiconditional';
-    
+
+    public function init()
+    {
+        $this->formField->cssClass .= ' hide';
+    }
+
     public function render()
     {
         if ($this->controller->methodExists('formGetWidget')) {
