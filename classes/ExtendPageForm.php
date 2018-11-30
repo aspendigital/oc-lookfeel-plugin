@@ -49,7 +49,7 @@ class ExtendPageForm
         //  if a layout with no markup is on the initial form load but the layout is then
         //  switched to one with markup
         $layoutName = $this->page->getViewBag()->property('layout');
-        if ($layoutName && $this->layouts[$layoutName]->hideContentField) {
+        if ($layoutName && optional(array_get($this->layouts, $layoutName))->hideContentField) {
             $tab = $this->form->getTab('secondary');
             $field = $this->form->getField('markup');
             $field->hidden = true;
