@@ -37,6 +37,6 @@ class MultiConditional extends FormWidgetBase
     
     public function loadAssets()
     {
-        $this->addJs('js/multiconditional.js');
+        $this->addJs('js/multiconditional.js', '1'); // Manual cache busting
     }
 }
